@@ -1,5 +1,6 @@
 import { app } from './app.js'
 import * as fs from 'fs'
+import { Alert } from './models/alerts/alert.model.js'
 
 const PORT = 5555
 
@@ -9,8 +10,11 @@ function loadJsonData(path: string) {
   return JSON.parse(data)
 }
 
+export let alerts: Alert[] = []
+
 try {
   const jsonData = loadJsonData('./public/data.json')
+  alerts = jsonData
   console.log('JSON data loaded successfully')
 } catch (error) {
   console.error('Error loading JSON data:', error)
