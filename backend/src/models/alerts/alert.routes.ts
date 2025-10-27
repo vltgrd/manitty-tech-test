@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { AlertService } from './alert.service.js'
 import { filterAlertsSchema } from './alert.model.js'
-import { ValidationError } from '../../shared/utils/errors.js'
+import { ValidationError, NotFoundError } from '../../shared/utils/errors.js'
 
 const alertService = new AlertService()
 export const alertRouter = Router()
@@ -15,6 +15,15 @@ alertRouter.get('/', (req, res, next) => {
   const filters = parseResult.data
   const alerts = alertService.getAlerts(filters)
   res.json(alerts)
+})
+
+// GET /:id - Retrieve a single alert by its ID
+alertRouter.get('/:id', (req, res, next) => {
+  const alert = alertService.getAlertById(req.params.id)
+  if (!alert) {
+    return next(new NotFoundError('Alert not found'))
+  }
+  res.json(alert)
 })
 
 // GET /subjects - Retrieve all available alert subjects

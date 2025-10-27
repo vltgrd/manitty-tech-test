@@ -16,6 +16,19 @@ export class AlertService {
   }
 
   /**
+   * Retrieves a single alert by its unique identifier.
+   *
+   * Searches through all alerts and returns the alert object that matches the provided `id`.
+   * If no alert with the specified `id` is found, returns `undefined`.
+   *
+   * @param id - The unique identifier of the alert.
+   * @returns {Alert | undefined} The alert with the given id, or undefined if not found.
+   */
+  public getAlertById(id: string): Alert | undefined {
+    return alerts.find((alert) => alert.id === id)
+  }
+
+  /**
    * Returns the number of alerts for each of the last specified number of months, including the current month.
    *
    * Iterates backwards from the current month, counting the number of alerts that occurred
