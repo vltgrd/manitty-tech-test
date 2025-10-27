@@ -12,3 +12,13 @@ export const AlertSchema = z.object({
     metadata: z.record(z.string(), z.any()),
 });
 export type Alert = z.infer<typeof AlertSchema>;
+
+export const AlertsNumberByMonthSchema = z.object({
+    month: z.string().regex(/^\d{4}-\d{2}$/, {
+        message: "Month must be in YYYY-MM format",
+    }),
+    count: z.number().min(0),
+});
+export const AlertsNumberByMonthsSchema = z.array(AlertsNumberByMonthSchema);
+export type AlertsNumberByMonth = z.infer<typeof AlertsNumberByMonthSchema>;
+export type AlertsNumberByMonths = z.infer<typeof AlertsNumberByMonthsSchema>;
