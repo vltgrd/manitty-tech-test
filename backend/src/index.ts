@@ -1,4 +1,4 @@
-import { app } from './app'
+import { app } from './app.js'
 import * as fs from 'fs'
 
 const PORT = 5555
