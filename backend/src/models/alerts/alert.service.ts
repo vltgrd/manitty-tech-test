@@ -1,4 +1,5 @@
 import { alerts } from '../../index.js'
+import { Alert, FilterAlerts } from './alert.model.js'
 
 export class AlertService {
   /**
@@ -59,5 +60,42 @@ export class AlertService {
     }
 
     return result
+  }
+
+  /**
+   * Retrieves alerts filtered by month, severity, and subject.
+   *
+   * - If `filter.month` is not provided, defaults to the current month.
+   * - If `filter.severity` is provided, only alerts with matching severity are returned.
+   * - If `filter.subject` is provided, only alerts with matching subject are returned.
+   *
+   * @param filter - The filter criteria for alerts.
+   * @returns {Alert[]} An array of alerts matching the filter.
+   */
+  public getAlerts(filter: FilterAlerts): Alert[] {
+    let month: string
+    if (!filter.month) {
+      const now = new Date()
+      month = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(
+        2,
+        '0'
+      )}`
+    } else {
+      month = filter.month
+    }
+
+    return alerts.filter((alert) => {
+      const alertDate = new Date(alert.timestamp)
+      const alertMonth = `${alertDate.getUTCFullYear()}-${String(
+        alertDate.getUTCMonth() + 1
+      ).padStart(2, '0')}`
+
+      const matchesMonth = alertMonth === month
+      const matchesSeverity =
+        !filter.severity || alert.severity === filter.severity
+      const matchesSubject = !filter.subject || alert.subject === filter.subject
+
+      return matchesMonth && matchesSeverity && matchesSubject
+    })
   }
 }

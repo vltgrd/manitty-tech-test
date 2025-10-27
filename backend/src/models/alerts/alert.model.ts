@@ -24,16 +24,10 @@ export type AlertsNumberByMonth = z.infer<typeof AlertsNumberByMonthSchema>
 export type AlertsNumberByMonths = z.infer<typeof AlertsNumberByMonthsSchema>
 
 export const filterAlertsSchema = z.object({
-  startDate: z
+  month: z
     .string()
-    .refine((date) => !isNaN(Date.parse(date)), {
-      message: 'Invalid ISO8601 date'
-    })
-    .optional(),
-  endDate: z
-    .string()
-    .refine((date) => !isNaN(Date.parse(date)), {
-      message: 'Invalid ISO8601 date'
+    .regex(/^\d{4}-\d{2}$/, {
+      message: 'Month must be in YYYY-MM format'
     })
     .optional(),
   severity: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']).optional(),
