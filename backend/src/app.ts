@@ -13,7 +13,11 @@ app.use(Express.json()) // Parse JSON
 app.use(cors()) // Enable CORS
 app.use(helmet()) // Set security headers
 
-app.use(auth()); // Authentication middleware
+app.use(auth()) // Authentication middleware
+
+// console log
+console.log(`Audience: ${process.env.AUDIENCE}`)
+console.log(`Issuer: ${process.env.ISSUER_BASE_URL}`)
 
 app.use('/alerts', alertRouter) // Alert routes
 

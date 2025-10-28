@@ -27,21 +27,20 @@ export class AlertService {
   public getAlertById(id: string): Alert | undefined {
     return alerts.find((alert) => alert.id === id)
   }
-
   /**
    * Returns the number of alerts for each of the last specified number of months, including the current month.
    *
-   * Iterates backwards from the current month, counting the number of alerts that occurred
-   * in each month, and returns an array of objects containing the month (in `YYYY-MM` format)
-   * and the corresponding alert count.
+   * Optionally filters alerts by subject
    *
    * @param months - The number of past months (including the current month) to include in the result.
+   * @param subjects - Optional array of subjects to filter alerts.
    * @returns An array of objects, each containing:
    *   - `month`: The month in `YYYY-MM` format.
    *   - `count`: The number of alerts for that month.
    */
   public getNumberOfAlertsByLastMonths(
-    months: number
+    months: number,
+    subjects?: string[]
   ): { month: string; count: number }[] {
     const result: { month: string; count: number }[] = []
     const now = new Date()
@@ -60,13 +59,15 @@ export class AlertService {
       // Format YYYY-MM
       const monthString = `${adjustedYear}-${String(month + 1).padStart(2, '0')}`
 
-      // Count alerts for the specific month and year
+      // Count alerts for the specific month and year, with optional subject filter
       const count = alerts.filter((alert) => {
         const alertDate = new Date(alert.timestamp)
-        return (
+        const matchesMonth =
           alertDate.getUTCFullYear() === adjustedYear &&
           alertDate.getUTCMonth() === month
-        )
+        const matchesSubject =
+          !subjects || subjects.length === 0 || subjects.includes(alert.subject)
+        return matchesMonth && matchesSubject
       }).length
 
       result.push({ month: monthString, count })

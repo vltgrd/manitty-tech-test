@@ -17,6 +17,12 @@ alertRouter.get('/', (req, res, next) => {
   res.json(alerts)
 })
 
+// GET /subjects - Retrieve all available alert subjects
+alertRouter.get('/subjects', (req, res) => {
+  const subjects = alertService.getAllSubjects()
+  res.json(subjects)
+})
+
 // GET /:id - Retrieve a single alert by its ID
 alertRouter.get('/:id', (req, res, next) => {
   const alert = alertService.getAlertById(req.params.id)
@@ -26,15 +32,22 @@ alertRouter.get('/:id', (req, res, next) => {
   res.json(alert)
 })
 
-// GET /subjects - Retrieve all available alert subjects
-alertRouter.get('/subjects', (req, res) => {
-  const subjects = alertService.getAllSubjects()
-  res.json(subjects)
-})
-
-// GET /numbers-by-months/:months - Retrieve the number of alerts for the last N months
-alertRouter.get('/numbers-by-months/:months', (req, res) => {
+// GET /numbers-by-months/:months - Retrieve the number of alerts for the last N months, filtered by a single subject
+alertRouter.get('/numbers-by-months/:months', (req, res, next) => {
   const months = parseInt(req.params.months, 10)
-  const data = alertService.getNumberOfAlertsByLastMonths(months)
-  res.json(data)
+  let subject: string | undefined
+
+  if (typeof req.query.subject === 'string') {
+    subject = req.query.subject
+  }
+
+  try {
+    const data = alertService.getNumberOfAlertsByLastMonths(
+      months,
+      subject ? [subject] : undefined
+    )
+    res.json(data)
+  } catch (err) {
+    next(err)
+  }
 })

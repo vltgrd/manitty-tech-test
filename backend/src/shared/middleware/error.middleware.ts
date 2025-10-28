@@ -13,9 +13,9 @@ export const errorHandlerMiddleware = (
       status: 'error',
       code: err.code,
       message: err.message
-    })  
+    })
   } else if (err instanceof UnauthorizedError) {
-    const authError = new AuthenticationError("Authentication failed")
+    const authError = new AuthenticationError('Authentication failed')
     res.status(authError.statusCode).json({
       status: 'error',
       code: authError.code,
