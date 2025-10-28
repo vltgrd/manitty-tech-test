@@ -80,7 +80,7 @@ export default function Dashboard() {
         if (!response.ok) throw new Error('Failed to fetch month data')
         const data = await response.json()
         setMonthData(data)
-        
+
         // Reset selected month and alerts when subject changes
         setSelectedMonth(null)
         setMonthAlerts([])
@@ -104,7 +104,7 @@ export default function Dashboard() {
         setIsAlertsLoading(true)
         const params = new URLSearchParams()
         params.append('month', selectedMonth)
-        
+
         // Include subject filter if selected
         if (selectedSubject) {
           params.append('subject', selectedSubject)
@@ -145,8 +145,6 @@ export default function Dashboard() {
           Error: {error}
         </div>
       )}
-      <h1 className="text-3xl font-bold mb-8">Alerts Dashboard</h1>
-
       <div className="bg-white rounded-lg shadow p-6 mb-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Alerts by Month</h2>
@@ -187,9 +185,7 @@ export default function Dashboard() {
                 <Bar
                   dataKey="count"
                   fill="#3b82f6"
-                  onClick={(data) =>
-                    handleBarClick(data.payload as MonthData)
-                  }
+                  onClick={(data) => handleBarClick(data.payload as MonthData)}
                   cursor="pointer"
                 />
               </BarChart>
@@ -264,9 +260,7 @@ export default function Dashboard() {
                 </div>
 
                 <div>
-                  <p className="text-sm text-gray-600 font-medium">
-                    Severity:
-                  </p>
+                  <p className="text-sm text-gray-600 font-medium">Severity:</p>
                   <span
                     className={`inline-block px-3 py-1 rounded text-sm font-medium ${severityColors[selectedAlert.severity]}`}
                   >
@@ -301,7 +295,9 @@ export default function Dashboard() {
                       Metadata:
                     </p>
                     <div className="text-xs bg-gray-50 p-3 rounded overflow-auto max-h-32">
-                      <pre>{JSON.stringify(selectedAlert.metadata, null, 2)}</pre>
+                      <pre>
+                        {JSON.stringify(selectedAlert.metadata, null, 2)}
+                      </pre>
                     </div>
                   </div>
                 )}
