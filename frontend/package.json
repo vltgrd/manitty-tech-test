@@ -10,7 +10,8 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
-    "next": "16.0.0",
+    "@auth0/nextjs-auth0": "github:auth0/nextjs-auth0",
+    "next": "15.5.6",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },
