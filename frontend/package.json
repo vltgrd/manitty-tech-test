@@ -10,10 +10,13 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "github:auth0/nextjs-auth0",
+    "@auth0/nextjs-auth0": "^4.11.0",
+    "edge": "link:@auth0/nextjs-auth0/edge",
     "next": "15.5.6",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "recharts": "^3.3.0",
+    "server": "link:@auth0/nextjs-auth0/server"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
