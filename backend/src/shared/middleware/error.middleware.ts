@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
-import { AppError } from '../utils/errors.js'
+import { AppError, AuthenticationError } from '../utils/errors.js'
+import { UnauthorizedError } from 'express-oauth2-jwt-bearer'
 
 export const errorHandlerMiddleware = (
   err: Error,
@@ -12,6 +13,13 @@ export const errorHandlerMiddleware = (
       status: 'error',
       code: err.code,
       message: err.message
+    })  
+  } else if (err instanceof UnauthorizedError) {
+    const authError = new AuthenticationError("Authentication failed")
+    res.status(authError.statusCode).json({
+      status: 'error',
+      code: authError.code,
+      message: authError.message
     })
   } else
     // Manage unexpected errors
