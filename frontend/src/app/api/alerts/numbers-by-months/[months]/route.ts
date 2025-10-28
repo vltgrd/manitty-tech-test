@@ -17,15 +17,24 @@ export async function GET(
   try {
     const { months } = await params
     const monthsValue = months || '12'
-    const response = await fetch(
-      `${BACKEND_URL}/alerts/numbers-by-months/${monthsValue}`,
-      {
-        headers: {
-          Authorization: `Bearer ${session.tokenSet.accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      }
+
+    // Get search params from the incoming request
+    const { searchParams } = new URL(request.url)
+
+    // Build URL with months and search params
+    const backendUrl = new URL(
+      `${BACKEND_URL}/alerts/numbers-by-months/${monthsValue}`
     )
+    searchParams.forEach((value, key) => {
+      backendUrl.searchParams.append(key, value)
+    })
+
+    const response = await fetch(backendUrl.toString(), {
+      headers: {
+        Authorization: `Bearer ${session.tokenSet.accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
 
     if (!response.ok) {
       throw new Error(`Backend returned ${response.status}`)
