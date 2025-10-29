@@ -10,7 +10,7 @@ interface Alert {
   message: string
   timestamp: string
   severity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'
-  metadata: Record<string, any>
+  metadata: Record<string, unknown>
 }
 
 interface GroupedAlerts {
@@ -71,7 +71,7 @@ export default function AlertsPage() {
         if (!res.ok) throw new Error('Failed to fetch subjects')
         const data = await res.json()
         setSubjects(data)
-      } catch (err) {
+      } catch (err: unknown) {
         console.error('Error fetching subjects:', err)
       }
     }
@@ -97,10 +97,13 @@ export default function AlertsPage() {
         const monthsData = await res.json()
 
         // Extract month keys and sort them newest first
-        const months = monthsData.map((m: any) => m.month)
+        const months = monthsData.map((m: { month: string }) => m.month)
         setAllMonths(months)
         setTotalAlerts(
-          monthsData.reduce((sum: number, m: any) => sum + m.count, 0)
+          monthsData.reduce(
+            (sum: number, m: { count: number }) => sum + m.count,
+            0
+          )
         )
 
         // Initialize map with empty groups
@@ -115,7 +118,7 @@ export default function AlertsPage() {
           })
         })
         setGroupedAlerts(newGroups)
-      } catch (err) {
+      } catch (err: unknown) {
         setError(err instanceof Error ? err.message : 'Failed to fetch months')
       } finally {
         setLoading(false)
@@ -157,7 +160,7 @@ export default function AlertsPage() {
         group.page = page
         updatedGroups.set(month, group)
         setGroupedAlerts(updatedGroups)
-      } catch (err) {
+      } catch (err: unknown) {
         console.error(`Failed to fetch alerts for ${month}:`, err)
         const newGroups = new Map(groupedAlerts)
         const group = newGroups.get(month)!

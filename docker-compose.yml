@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5555:5555"
+    environment:
+      PORT: 5555
+      ISSUER_BASE_URL: https://dev-5km1kqut7i12nc1y.eu.auth0.com
+      AUDIENCE: mntid
+      NODE_ENV: production
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      AUTH0_SECRET: 4e127f89516fc690a48b53a095ec4bae3e2b7ac2b768284c2ab2d2509450c56e
+      APP_BASE_URL: http://localhost:3000
+      AUTH0_DOMAIN: https://dev-5km1kqut7i12nc1y.eu.auth0.com
+      AUTH0_CLIENT_ID: UQIlnHfCZordVrMoVkwGFgcv4SZbC8Wb
+      AUTH0_CLIENT_SECRET: lLy87xOOi9MYGZqm66a9cDQHhIBsmt0uHkBKLcrqSjiJe7g06cFkbKzL4sK5XUee
+      AUTH0_AUDIENCE: mntid
+      AUTH0_SCOPE: openid profile email read:shows
+      NEXT_PUBLIC_BACKEND_URL: http://backend:5555
+    depends_on:
+      - backend

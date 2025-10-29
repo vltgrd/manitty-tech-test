@@ -47,7 +47,7 @@ alertRouter.get('/numbers-by-months/:months', (req, res, next) => {
       subject ? [subject] : undefined
     )
     res.json(data)
-  } catch (err) {
+  } catch (err: unknown) {
     next(err)
   }
 })

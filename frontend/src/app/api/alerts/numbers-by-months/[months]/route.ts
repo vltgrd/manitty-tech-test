@@ -1,8 +1,7 @@
 import { auth0 } from '@/lib/auth0'
 import { NextResponse } from 'next/server'
 
-const BACKEND_URL =
-  process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://backend:5555'
 
 export async function GET(
   request: Request,

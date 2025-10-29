@@ -1,8 +1,6 @@
 import { auth0 } from '@/lib/auth0'
 import { NextResponse } from 'next/server'
-
-const BACKEND_URL =
-  process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://backend:5555'
 
 export async function GET() {
   const session = await auth0.getSession()
@@ -26,7 +24,6 @@ export async function GET() {
     const data = await response.json()
     return NextResponse.json(data)
   } catch (error) {
-    console.error('Failed to fetch subjects:', error)
     return NextResponse.json(
       { error: 'Failed to fetch subjects' },
       { status: 500 }

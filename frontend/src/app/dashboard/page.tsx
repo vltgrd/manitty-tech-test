@@ -19,7 +19,7 @@ export type Alert = {
   severity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'
   title: string
   message: string
-  metadata: Record<string, any>
+  metadata: Record<string, unknown>
 }
 
 interface MonthData {
@@ -54,7 +54,7 @@ export default function Dashboard() {
         if (!response.ok) throw new Error('Failed to fetch subjects')
         const data = await response.json()
         setSubjects(data)
-      } catch (err) {
+      } catch (err: unknown) {
         setError(err instanceof Error ? err.message : 'An error occurred')
       }
     }
@@ -85,7 +85,7 @@ export default function Dashboard() {
         setSelectedMonth(null)
         setMonthAlerts([])
         setSelectedAlert(null)
-      } catch (err) {
+      } catch (err: unknown) {
         setError(err instanceof Error ? err.message : 'An error occurred')
       } finally {
         setIsChartLoading(false)
@@ -115,7 +115,7 @@ export default function Dashboard() {
         const data: Alert[] = await response.json()
         setMonthAlerts(data)
         setSelectedAlert(null)
-      } catch (err) {
+      } catch (err: unknown) {
         setError(err instanceof Error ? err.message : 'Failed to fetch alerts')
       } finally {
         setIsAlertsLoading(false)
