@@ -63,10 +63,10 @@ Access the app at: [http://localhost:3000](http://localhost:3000)
 ### 💡 All-in-one command
 
 ```bash
-docker load -i manitty-tech-test-frontend.tar.gz && \
-docker load -i manitty-tech-test-backend.tar.gz && \
-docker network create manitty-network && \
-docker run -d -p 5555:5555 --name backend --network manitty-network manitty-tech-test-backend && \
+docker load -i manitty-tech-test-frontend.tar.gz &&
+docker load -i manitty-tech-test-backend.tar.gz &&
+docker network create manitty-network &&
+docker run -d -p 5555:5555 --name backend --network manitty-network manitty-tech-test-backend &&
 docker run -d -p 3000:3000 --name frontend --network manitty-network manitty-tech-test-frontend
 ```
 
